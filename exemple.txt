@@ -1,0 +1,43 @@
+
+VAR_GLOBAL{
+
+FLOAT ab;
+INTEGER Bx,i,t1,t2,t3;
+INTEGER j;
+CONST X=(-3.5);
+FLOAT Tab[5];
+
+}
+
+DECLARATION{
+    INTEGER a, f;
+    FLOAT Array[10];
+}
+
+%% ceci est un commentaire
+    INSTRUCTION {
+
+ab=X+(5/2);
+Bx=7*15+(-3);
+
+
+IF(ab==2 || Bx<20){
+            
+                Tab[i]=i*4;
+            
+        }
+        ELSE{i=i+1;}
+
+
+IF(ab==6 && Bx<10){
+            
+                Tab[i]=i*9;
+            
+        }
+        ELSE{i=i+2;}
+
+
+    }
+
+
+
