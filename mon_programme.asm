@@ -37,49 +37,34 @@ etiquette 0 : MOV AX, 5
 DIV AX, 2
 etiquette 1 : ADD AX, X
 etiquette 2 : MOV DX, 
-etiquette 3 : MOV AX, 7
-MUL AX, 15
+etiquette 3 : MOV AX, 15
+ADD AX, 15
 etiquette 4 : ADD AX, -3
 MOV AX, T2
 ADD AX, -3
 etiquette 5 : MOV DX, 
-etiquette 6 : MOV AX, ab
-SUB AX, 2
-etiquette 7 : CMP AX, 0
-JNE etiquette 
-etiquette 8 : MOV AX, Bx
-SUB AX, 20
-etiquette 9 : CMP AX, 0
-JGE etiquette 18
+etiquette 6 : etiquette 7 : MOV DX, 
+etiquette 8 : JMP etiquette 10
+etiquette 9 : MOV DX, 
 etiquette 10 : CMP AX, 0
-JE etiquette 14
-etiquette 11 : CMP AX, 0
-JE etiquette 14
-etiquette 12 : MOV DX, 1
-etiquette 13 : JMP etiquette 15
-etiquette 14 : MOV DX, 0
-etiquette 15 : MOV AX, i
-MUL AX, 4
-etiquette 16 : MOV DX, 
-etiquette 17 : JMP etiquette 20
+JGE etiquette 13
+etiquette 11 : MOV DX, 
+etiquette 12 : JMP etiquette 14
+etiquette 13 : MOV DX, 
+etiquette 14 : CMP AX, 0
+JNE etiquette 18
+etiquette 15 : CMP AX, 0
+JNE etiquette 18
+etiquette 16 : JMP etiquette 19
+etiquette 17 : JMP etiquette 24
 etiquette 18 : MOV AX, i
 ADD AX, 1
 etiquette 19 : MOV DX, 
-etiquette 20 : MOV AX, ab
-SUB AX, 6
-etiquette 21 : CMP AX, 0
-JNE etiquette 27
-etiquette 22 : MOV AX, Bx
-SUB AX, 10
-etiquette 23 : CMP AX, 0
-JGE etiquette 27
-etiquette 24 : MOV AX, i
-MUL AX, 9
-etiquette 25 : MOV DX, 
-etiquette 26 : JMP etiquette 29
-etiquette 27 : MOV AX, i
-ADD AX, 2
-etiquette 28 : MOV DX, 
+etiquette 20 : etiquette 21 : JMP etiquette 28
+etiquette 22 : CMP AX, 0
+JGE etiquette 31
+etiquette 23 : JMP etiquette 32
+etiquette 24 : JMP etiquette 37
 FIN :
 MOV AH,4CH
 INT 21h

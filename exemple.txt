@@ -18,7 +18,7 @@ DECLARATION{
     INSTRUCTION {
 
 ab=X+(5/2);
-Bx=7*15+(-3);
+Bx=2*15+(-3);
 
 
 IF(ab==2 || Bx<20){

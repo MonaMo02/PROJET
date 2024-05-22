@@ -1,6 +1,34 @@
-#include "TSH.h"
-#include<stdio.h>
-#include<stdlib.h>
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+//les types : 1 
+
+
+struct NT
+{
+	char * val;
+	int type;
+};
+
+typedef struct element element;
+struct element
+{
+	char nom[30];
+	int code;
+	float code2;
+	char type[30];
+	char taille[255];
+	int state;
+	struct element *suiv;
+};
+
+element *TS[2000];
+
+
 /*****************************Initialisation de la table des symboles************************************/
 void init () {
 	int i;
@@ -110,7 +138,7 @@ void insere(char nom[], char type[], char taille[]){
 			float num=atoi(taille);
 			p->code = num;
 		}
-		p->used=0;
+		p->state=0;
 		p->suiv = TS[i];
 		TS[i] = p;
 	}
@@ -119,9 +147,9 @@ void insere(char nom[], char type[], char taille[]){
 /**************************************Fonction d'affichage***********************************************/
 void affiche(){
 	element *p;
-printf("\n********************************************\n");
-printf("*            Table des symboles            *\n");
-printf("********************************************\n");
+printf("\n******************************************************************\n");
+printf("*                      Table des symboles                        *\n");
+printf("******************************************************************\n");
 printf("_________________________________________________________________\n");
 printf("| NomEntite 	       |CodeEntite	   |Information           |\n");
 printf("|______________________|___________________|______________________|\n");
@@ -143,7 +171,7 @@ printf("|______________________|___________________|______________________|\n");
 int ifused(char nom[]){
 	element *p;
 	int i = recherche(nom,&p);
-	if(p!=NULL){return p->used;}
+	if(p!=NULL){return p->state;}
 }
 /********************************************Fonctions d'optimisation***************************************/
 
@@ -153,7 +181,7 @@ void used(char nom[]){
 	element *q;
 	i = recherche(nom,&q);
 	if(q!=NULL){
-		q->used=1;
+		q->state=1;
 	}
 }
 
@@ -164,7 +192,7 @@ for(i=0;i<2000;i++){
 	if(TS[i]!=NULL){
 		p = TS[i];
 		do{
-			if(p->used==0){
+			if(p->state==0){
 				if(p==TS[i]){
 					TS[i]=p->suiv;
 				}

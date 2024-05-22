@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 typedef struct
 { 
    int state; 
@@ -90,26 +92,26 @@ void afficher()
  
 printf("\n/***************Table des symboles mots cles*************/\n");
 
-printf("__________________________________\n");
-printf("\t| NomEntite |  CodeEntite | \n");
-printf("__________________________________\n");
+printf("__________________________________________\n");
+printf("|    NomEntite    |     CodeEntite        | \n");
+printf("__________________________________________\n");
   
 for(i=0;i<40;i++)
     if(tabm[i].state==1)
       { 
-        printf("\t|%10s |%12s | \n",tabm[i].name, tabm[i].type);               
+        printf("|%15s  |%20s   | \n",tabm[i].name, tabm[i].type);               
       }
 
 printf("\n/***************Table des symboles separateurs*************/\n");
 
-printf("__________________________________\n");
-printf("\t| NomEntite |  CodeEntite | \n");
-printf("__________________________________\n");
+printf("__________________________________________\n");
+printf("|    NomEntite    |     CodeEntite        | \n");
+printf("__________________________________________\n");
   
 for(i=0;i<40;i++)
     if(tabs[i].state==1)
       { 
-        printf("\t|%10s |%12s | \n",tabs[i].name,tabs[i].type );
+        printf("|%15s  |%20s   | \n",tabs[i].name,tabs[i].type );
         
       }
 

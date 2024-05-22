@@ -2,9 +2,7 @@
  #include<stdio.h>
  #include <string.h>
  #include"synt.tab.h"
- #include "TS.h"
- #include "TSH.h"
- 
+ #include "TS.c"
 
  int nb_ligne=1;
  int nbcol=1;
@@ -16,47 +14,43 @@ commentaire "%%"(.)*
 chiffre [0-9]
 
 idf [A-Za-z]([a-z_]|{chiffre})* 
-integer_naturel [1-9][0-9]*|0
-num_integer "("[+-]?([1-9][0-9]*|0)")"
-num_float "("[+-]?([1-9][0-9]*|0)\.([0-9]*[1-9]|0)")"
-float_s ([1-9][0-9]*|0)\.([0-9]*[1-9]|0)
+integer_pos [1-9][0-9]*|0
+const_integer "("[+-]?([1-9][0-9]*|0)")"
+const_float "("[+-]?([1-9][0-9]*|0)\.([0-9]*[1-9]|0)")"
+float_pos ([1-9][0-9]*|0)\.([0-9]*[1-9]|0)
 STRING_LITERAL \"[^"]*\"
 
 
 %%
 {commentaire} 
 
-{num_float} {yylval.chaine=strdup(yytext);
-    printf("float reconnue %s\n",yytext);
+{const_float} {yylval.chaine=strdup(yytext);
     nbcol=nbcol+strlen(yytext);
-    return num_float;
+    return const_float;
     }
 
-{float_s} {
+{float_pos} {
     yylval.chaine=strdup(yytext);
-    printf("float reconnue %s\n",yytext);
     nbcol=nbcol+strlen(yytext);
-    return float_s;
+    return float_pos;
 }
 
-{integer_naturel} {
+{integer_pos} {
     if(atoi(yytext)>32767 || atoi(yytext)<-32768){
-        printf("La taille de l'entier est depasser !!!!!\n");
+        printf("La taille de l'entier est depassee !!!!!\n");
     }else{
     yylval.chaine=strdup(yytext);
-    printf("entier_naturel reconnue %s\n",yytext);
     nbcol=nbcol+strlen(yytext);
-    return integer_naturel;}
+    return integer_pos;}
 }
 
-{num_integer} {
+{const_integer} {
     if(atoi(strtok(yytext,"()"))>32767 || atoi(strtok(yytext,"()"))<-32768){
-        printf("La taille de l'entier est depasser !!!!!\n");
+        printf("La taille de l'entier est depassee !!!!!\n");
     }else{
     yylval.chaine=strdup(yytext);
-    printf("entier reconnue %s\n",yytext);
     nbcol=nbcol+strlen(yytext);
-    return num_integer;}
+    return const_integer;}
     }
 
 {STRING_LITERAL} {return STRING_LITERAL; }
@@ -65,8 +59,6 @@ STRING_LITERAL \"[^"]*\"
 {idf} {
     if(yyleng<=8) {
         yylval.chaine=strdup(yytext);
-        printf("entite_reconnue %s\n",yytext);
-        //insere(yytext,0,"0");
         nbcol=nbcol+strlen(yytext); 
         return idf;
     }else{
@@ -77,32 +69,28 @@ STRING_LITERAL \"[^"]*\"
 
 "VAR_GLOBAL" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_VAR;
     }
 
     "DECLARATION" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_declaration;
     }
 
 "INTEGER" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext); 
     return mc_integer;
     }
 
 "FLOAT" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_float;
      }
@@ -110,56 +98,49 @@ STRING_LITERAL \"[^"]*\"
 
 "INSTRUCTION" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext); 
     return mc_instruction;
     }
 
 "FOR" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_for;
      }
 
 "IF" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_if;
      }
 
 "READ" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_READ;
      }
 
 "WRITE" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_WRTIE;
      }
 
 "ELSE" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_else;
      }
 
 "WHILE" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext);
     return mc_while;
     }
@@ -168,182 +149,179 @@ STRING_LITERAL \"[^"]*\"
 
 "CONST" {
     yylval.chaine=strdup(yytext);
-    printf("mc_reconnue %s\n",yytext);
-    rechercher(yytext,"Mot cle", 1);
+    rechercher(yytext,"MOT CLE", 1);
     nbcol=nbcol+strlen(yytext); 
     return mc_const;
     }  
 
 "+" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
-    return ADD;
+    return plus;
     }
 
 "-" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return SUB;
+    return moins;
     }
 
 "/" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return DIV;
+    return divs;
     }
 
 "*" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return MUL;
+    return mult;
     }      
 
 "{" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return acO;
+    return AcOuv;
      }
      
 "}" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return acF;
+    return AcFer;
      }
 
 "[" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return croO;
+    return CroOuv;
 }
 
 "]" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return croF;
+    return CroFer;
 }
 
 ";" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return pvg;
     }
 "," {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return vrg;
     }
 
 ":" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return deuxpoints;
 }
 "." {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return point;
 }
 
 "(" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
-    return paO;
+    return ParOuv;
     }
 
 ")" {
-    printf("sep_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
-    return paF;
+    return ParFer;
     }    
 
 "<" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return inf;
     }
     
 "<=" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return infegale;
     }   
 
 ">" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return sup;
     }
 
 ">=" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return supegale;
     }    
 
 "==" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
     return egale;
     }
 
 "=" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext); 
-    return affecter;
+    return affect;
     }
 
 "!=" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return different;
+    return Diff;
 }
 
 "||" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return OU;
+    return OR;
 }
 
 "&&" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return ET;
+    return AND;
 }
 
 "!" {
-    printf("oper_reconnue %s\n",yytext);
-    rechercher(yytext,"Separateur",2);
+    rechercher(yytext,"SEPARATEUR",2);
     nbcol=nbcol+strlen(yytext);
-    return negation;
+    return NOT;
 }
 
 [ \t] {nbcol=nbcol+yyleng;}
 [\n] {nb_ligne++; nbcol=1;}
 . {
-    printf("erreur lexical %s dans la ligne %d et dans la colonne %d\n",yytext,nb_ligne,nbcol);
+    printf("!!ERREUR LEXICAL!! %s dans la ligne %d et dans la colonne %d\n",yytext,nb_ligne,nbcol);
      return err;
      }
 

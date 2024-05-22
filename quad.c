@@ -1,10 +1,23 @@
-#include "quad.h"
 #include "TSH.c"
 #include <stdio.h>
 #include <string.h>
 
+typedef struct quads quads;
+struct quads
+{
+	char *opr;
+	char *op1;
+	char *op2;
+	char *res;
+};
+
+struct quads liste[2000];
+int qc = 0;
+int changement = 1;
+
+
 /***********************************Generation de quadruplets************************************************/
-void generer(char *a, char *b, char *c, char *d)
+void GenQuad(char *a, char *b, char *c, char *d)
 {
 	liste[qc].opr = strdup(a);
 	liste[qc].op1 = strdup(b);
@@ -23,123 +36,68 @@ char *convert(int i)
 /***********************************Quads Expression logiques************************************************/
 
 
-void quadL(int i, char *b, char *c, char *d)
+void LogicQuad(int i, char *b, char *c, char *d)
 {
 	switch (i)
 	{
 	case 1:// negation
-		generer("BNZ", convert(qc + 3), b, "");
-		generer("=", "", "1", d);// not b =true
-		generer("BR", convert(qc + 2), "", "");
-		generer("=", "", "0", d);//false
+		GenQuad("BNZ", convert(qc + 3), b, "");
+		GenQuad("=", "", "1", d);// not b =true
+		GenQuad("BR", convert(qc + 2), "", "");
+		GenQuad("=", "", "0", d);//false
 		break;
 	case 2:// ou :||
-		generer("BNZ", convert(qc + 4), b, ""); // si b vrai on branche 
-		generer("BNZ", convert(qc + 3), c, "");// si non si c vrai on brance 
-		generer("=", "", "0", d);// si non l'expression est fausse
-		generer("BR", convert(qc + 2), "", "");
-		generer("=", "", "1", d);
+		GenQuad("BNZ", convert(qc + 4), b, ""); // si b vrai on branche 
+		GenQuad("BNZ", convert(qc + 3), c, "");// si non si c vrai on brance 
+		GenQuad("=", "", "0", d);// si non l'expression est fausse
+		GenQuad("BR", convert(qc + 2), "", "");
+		GenQuad("=", "", "1", d);
 		break;
 	case 3:// et  : &&
-		generer("BZ", convert(qc + 4), b, "");// if b false on sorte
-		generer("BZ", convert(qc + 3), c, "");//si non if c false on sorte
-		generer("=", "", "1", d);// si non lexprition est vrai
-		generer("BR", convert(qc + 2), "", "");
-		generer("=", "", "0", d);
+		GenQuad("BZ", convert(qc + 4), b, "");// if b false on sorte
+		GenQuad("BZ", convert(qc + 3), c, "");//si non if c false on sorte
+		GenQuad("=", "", "1", d);// si non lexprition est vrai
+		GenQuad("BR", convert(qc + 2), "", "");
+		GenQuad("=", "", "0", d);
 		break;
 	}
 }
 
 /***********************************Quads Expressions de comparaison************************************************/
-void quad(int i, char *b, char *c, char *d)
-{
+void ComparQuad(int i, char *b, char *c, char *d)
+{ char *TypeBR;
 	switch (i)
-	{
-	case 1:// supperieur ou egale
-		generer("-", b, c, d);
-		generer("BGE", "", d, "");
+	{	case 1 :{// ">=" supp ou egale
+			TypeBR=strdup("BGE");
+		}
 		break;
-	case 2:// supperieur
-		generer("-", b, c, d);
-		generer("BG", "", d, "");
+		case 2 :{// ">" supp
+			TypeBR=strdup("BG");
+		}
 		break;
-	case 3://inferieur ou egale
-		generer("-", b, c, d);
-		generer("BLE", "", d, "");
+		case 3 :{// ">=" inf ou egale
+			TypeBR=strdup("BLE");
+		}
 		break;
-	case 4:// inferieur
-		generer("-", b, c, d);
-		generer("BL", "", d, "");
+		case 4 :{// ">" inf
+			TypeBR=strdup("BL");
+		}
 		break;
-	case 5:// non egale
-		generer("-", b, c, d);
-		generer("BNZ", "", d, "");
+		case 5 :{// "!=" (different)
+			TypeBR=strdup("BNE");
+		}
 		break;
-	case 6:// egale
-		generer("-", b, c, d);
-		generer("BZ", "", d, "");
-		break;
+		case 6 :{// "==" (égale)
+			TypeBR=strdup("BE");
+		}
+		break;	
 	}
+	GenQuad(TypeBR,convert(qc+3),b,c);
+	GenQuad("=","1","",d);
+	GenQuad("BR",convert(qc+2),"","");
+	GenQuad("=","0","",d);
 }
 
-// void quadL(int i, char *b, char *c, char *d)
-// {
-// 	switch (i)
-// 	{
-// 	case 1: //Negation
-// 		generer("BNZ", convert(qc + 3), b, "");
-// 		generer("=", "", "1", d);
-// 		generer("BR", convert(qc + 2), "", "");
-// 		generer("=", "", "0", d);
-// 		break;
-// 	case 2: //AND
-// 		generer("BNZ", convert(qc + 4), b, "");
-// 		generer("BNZ", convert(qc + 3), c, "");
-// 		generer("=", "", "0", d);
-// 		generer("BR", convert(qc + 2), "", "");
-// 		generer("=", "", "1", d);
-// 		break;
-// 	case 3: //OR
-// 		generer("BZ", convert(qc + 4), b, "");
-// 		generer("BZ", convert(qc + 3), c, "");
-// 		generer("=", "", "1", d);
-// 		generer("BR", convert(qc + 2), "", "");
-// 		generer("=", "", "0", d);
-// 		break;
-// 	}
-// }
-
-// /***********************************Quads Expressions de comparaison************************************************/
-// void quad(int i, char *b, char *c, char *d)
-// {
-// 	switch (i)
-// 	{
-// 	case 1:
-// 		generer("-", b, c, d);
-// 		generer("BGE", "", d, "");
-// 		break;
-// 	case 2:
-// 		generer("-", b, c, d);
-// 		generer("BG", "", d, "");
-// 		break;
-// 	case 3:
-// 		generer("-", b, c, d);
-// 		generer("BLE", "", d, "");
-// 		break;
-// 	case 4:
-// 		generer("-", b, c, d);
-// 		generer("BL", "", d, "");
-// 		break;
-// 	case 5:
-// 		generer("-", b, c, d);
-// 		generer("BNZ", "", d, "");
-// 		break;
-// 	case 6:
-// 		generer("-", b, c, d);
-// 		generer("BZ", "", d, "");
-// 		break;
-// 	}
-// }
 /********************************************Suppression des quads des affectations non utilisees**************************************/
 void delete_quad()
 {
@@ -195,6 +153,87 @@ void delete_quad()
 		}
 	}
 }
+
+/********************************************/ 
+
+void PropagationDeCopie() {
+    int i, j, k;
+	int nbQc=0; // calculer le nb des quads jusqu a trouver le meme res (changer la valeur du var)
+	int trouve;
+	int nbOcc=0; // res doit etre presant dasn au mois deux quad comme operand
+    for (i = 0; i < qc-1; i++) 
+	{    
+		if (strcmp(liste[i].opr, "=") == 0 )
+		{      
+				nbQc=i+1; trouve =0;
+				for (j = i+1; j < qc; j++)
+				{
+					if (strcmp(liste[i].res, liste[j].res) != 0 )
+					{
+					    nbQc++; trouve=1; //trouve est utilise pour la condition if 
+						if (strcmp(liste[i].op1,liste[j].op2) == 0 || strcmp(liste[i].op1,liste[j].op1) == 0)
+						{
+							nbOcc++;
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+				if(trouve == 1 && nbOcc>1){
+					for (j = i + 1; j < nbQc; j++) 
+					{    
+						if ( (strcmp(liste[i].op1,liste[j].op2) == 0 || strcmp(liste[i].op1,liste[j].op1) == 0) && strcmp(liste[i].op2,"") == 0 )
+						{     changement = 1;
+					        if (strcmp(liste[i].op1, liste[j].op1) == 0) 
+							 {
+								 strcpy(liste[j].op1, liste[i].res);
+							 } 
+							 else 
+							 {
+								  strcpy(liste[j].op2, liste[i].res);
+							 }
+						}
+					}
+				}
+		}
+       
+    }
+}
+/*********************************************************************************************************/
+
+
+
+/********************/
+
+
+
+void checkX2()
+{
+    int i=0;
+    for (i=0;i<qc;i++)
+    {
+        if(strcmp(liste[i].opr,"*") == 0)
+        {
+            if(strcmp(liste[i].op1,"2") == 0)
+            {
+                liste[i].opr=strdup("+");
+                liste[i].op1=strdup(liste[i].op2);
+                liste[i].op2=strdup(liste[i].op2);
+            }
+            else if (strcmp(liste[i].op2,"2")==0)
+            {
+                liste[i].opr=strdup("+");
+                liste[i].op1=strdup(liste[i].op1);
+                liste[i].op2=strdup(liste[i].op1);
+            }
+        }
+    }
+}
+
+
+
 /***********************************Generation de code machine************************************************/
 void assembler()
 {
@@ -404,7 +443,7 @@ void assembler()
 
 
 /***********************************Fonction d'affichage des quadruplets************************************************/
-void afficher_qdr()
+void afficher_Quad()
 {
 	printf("\n*********************Quadruplets***********************\n");
 
@@ -417,3 +456,7 @@ void afficher_qdr()
 		printf("\n---------------------------------------------------\n");
 	}
 }
+
+
+
+/*****************************************/

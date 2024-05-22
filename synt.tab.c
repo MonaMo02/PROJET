@@ -128,39 +128,39 @@ int win=0;
      mc_else = 268,
      mc_for = 269,
      mc_while = 270,
-     acO = 271,
-     acF = 272,
+     AcOuv = 271,
+     AcFer = 272,
      pvg = 273,
      vrg = 274,
-     paO = 275,
-     paF = 276,
-     croF = 277,
-     croO = 278,
+     ParOuv = 275,
+     ParFer = 276,
+     CroFer = 277,
+     CroOuv = 278,
      deuxpoints = 279,
      point = 280,
-     affecter = 281,
+     affect = 281,
      idf = 282,
      err = 283,
      STRING_LITERAL = 284,
      INTEGER = 285,
      FLOAT = 286,
-     integer_naturel = 287,
-     float_s = 288,
-     num_float = 289,
-     num_integer = 290,
-     OU = 291,
-     ET = 292,
-     negation = 293,
-     different = 294,
+     integer_pos = 287,
+     float_pos = 288,
+     const_float = 289,
+     const_integer = 290,
+     OR = 291,
+     AND = 292,
+     NOT = 293,
+     Diff = 294,
      egale = 295,
      supegale = 296,
      sup = 297,
      infegale = 298,
      inf = 299,
-     SUB = 300,
-     ADD = 301,
-     DIV = 302,
-     MUL = 303
+     moins = 300,
+     plus = 301,
+     divs = 302,
+     mult = 303
    };
 #endif
 
@@ -515,16 +515,16 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
        0,    53,    53,    57,    58,    59,    60,    61,    62,    66,
       68,    69,    70,    74,    83,    93,    94,    97,    98,   103,
      104,   108,   109,   110,   111,   112,   115,   116,   119,   120,
      128,   128,   132,   134,   135,   138,   139,   142,   146,   149,
-     150,   149,   155,   156,   159,   171,   172,   173,   174,   175,
-     176,   177,   178,   179,   180,   181,   188,   187,   198,   199,
-     200,   201,   204,   205,   206,   207,   208,   209,   210,   213,
-     213,   213,   216,   216,   216,   216
+     150,   149,   155,   156,   159,   171,   183,   196,   207,   213,
+     221,   227,   228,   229,   230,   231,   238,   237,   248,   249,
+     250,   251,   254,   255,   256,   257,   258,   259,   260,   263,
+     263,   263,   266,   266,   266,   266
 };
 #endif
 
@@ -535,16 +535,16 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "mc_VAR", "mc_instruction", "mc_WRTIE",
   "mc_READ", "mc_declaration", "VEC", "mc_integer", "mc_float", "mc_const",
-  "mc_if", "mc_else", "mc_for", "mc_while", "acO", "acF", "pvg", "vrg",
-  "paO", "paF", "croF", "croO", "deuxpoints", "point", "affecter", "idf",
-  "err", "STRING_LITERAL", "INTEGER", "FLOAT", "integer_naturel",
-  "float_s", "num_float", "num_integer", "OU", "ET", "negation",
-  "different", "egale", "supegale", "sup", "infegale", "inf", "SUB", "ADD",
-  "DIV", "MUL", "$accept", "S", "DEC", "LISTECONST", "LISTETAB",
-  "LISTEIDF", "TYPE", "CORPS", "INSTS", "io_statement", "VARIABLE",
-  "message", "writemessage", "A", "B", "instAFF", "$@1", "$@2", "choix",
-  "exp", "instIF", "$@3", "cond", "expC", "instWHILE", "$@4", "$@5",
-  "instFOR", "$@6", "$@7", "$@8", 0
+  "mc_if", "mc_else", "mc_for", "mc_while", "AcOuv", "AcFer", "pvg", "vrg",
+  "ParOuv", "ParFer", "CroFer", "CroOuv", "deuxpoints", "point", "affect",
+  "idf", "err", "STRING_LITERAL", "INTEGER", "FLOAT", "integer_pos",
+  "float_pos", "const_float", "const_integer", "OR", "AND", "NOT", "Diff",
+  "egale", "supegale", "sup", "infegale", "inf", "moins", "plus", "divs",
+  "mult", "$accept", "S", "DEC", "LISTECONST", "LISTETAB", "LISTEIDF",
+  "TYPE", "CORPS", "INSTS", "io_statement", "VARIABLE", "message",
+  "writemessage", "A", "B", "instAFF", "$@1", "$@2", "choix", "exp",
+  "instIF", "$@3", "cond", "expC", "instWHILE", "$@4", "$@5", "instFOR",
+  "$@6", "$@7", "$@8", 0
 };
 #endif
 
@@ -1659,7 +1659,7 @@ yyreduce:
     {if(declared((yyvsp[(1) - (4)].chaine))==0){yyerror("Erreur semantique: variable non declaree");}else{if(strcmp(gettype2((yyvsp[(1) - (4)].chaine)),"CONST_INTEGER")==0 || strcmp(gettype2((yyvsp[(1) - (4)].chaine)),"CONST_FLOAT")==0 ){yyerror("Erreur semantique: modification d'une constante !!!!");}
 else {
 if(strcmp(gettype2((yyvsp[(1) - (4)].chaine)),"INTEGER")==0 && (strcmp((yyvsp[(3) - (4)].element).type,"FLOAT")==0) ||strcmp((yyvsp[(3) - (4)].element).type,"CONST_FLOAT")==0){yyerror("Incompatibilite de type");}
-else{used((yyvsp[(1) - (4)].chaine));  generer("=",(yyvsp[(3) - (4)].element).ch,"",(yyvsp[(1) - (4)].chaine));}}};}
+else{used((yyvsp[(1) - (4)].chaine));  GenQuad("=",(yyvsp[(3) - (4)].element).ch,"",(yyvsp[(1) - (4)].chaine));}}};}
     break;
 
   case 38:
@@ -1668,7 +1668,7 @@ else{used((yyvsp[(1) - (4)].chaine));  generer("=",(yyvsp[(3) - (4)].element).ch
 #line 146 "synt.y"
     {char* tab=strcat((yyvsp[(1) - (6)].chaine),"."); strcat(tab,(yyvsp[(3) - (6)].chaine)); if(declared(tab)==0){yyerror("Erreur semantique: variable non declaree");}
     else{if(strcmp(gettype2(tab),"INTEGER")==0 && strcmp((yyvsp[(5) - (6)].element).type,"FLOAT")==0 || strcmp((yyvsp[(5) - (6)].element).type,"CONST_FLOAT")==0){yyerror("Incompatibilite de type");}
-    else{used(tab); generer("=",(yyvsp[(5) - (6)].element).ch,"",tab);}};}
+    else{used(tab); GenQuad("=",(yyvsp[(5) - (6)].element).ch,"",tab);}};}
     break;
 
   case 39:
@@ -1692,7 +1692,7 @@ else{used((yyvsp[(1) - (4)].chaine));  generer("=",(yyvsp[(3) - (4)].element).ch
 #line 150 "synt.y"
     {char* tab=strcat((yyvsp[(1) - (9)].chaine),"[");
      strcat(tab,entt); strcat(tab,"]"); used(tab); if(strcmp(gettype2(tab),"INTEGER")==0 && (strcmp((yyvsp[(8) - (9)].element).type,"FLOAT")==0) ||strcmp((yyvsp[(8) - (9)].element).type,"CONST_FLOAT")==0){yyerror("Incompatibilite de type");}
-      generer("=",(yyvsp[(8) - (9)].element).ch,"",tab);;}
+      GenQuad("=",(yyvsp[(8) - (9)].element).ch,"",tab);;}
     break;
 
   case 42:
@@ -1723,7 +1723,7 @@ else{used((yyvsp[(1) - (4)].chaine));  generer("=",(yyvsp[(3) - (4)].element).ch
                 char c[10]=""; 
                 sprintf(c, "T%d", ntemp);
                 (yyval.element).ch=c;
-                generer("+",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);
+                GenQuad("+",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);
                 ntemp++;;}
     break;
 
@@ -1731,200 +1731,250 @@ else{used((yyvsp[(1) - (4)].chaine));  generer("=",(yyvsp[(3) - (4)].element).ch
 
 /* Line 1455 of yacc.c  */
 #line 171 "synt.y"
-    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){(yyval.element).type="INTEGER";}else{(yyval.element).type="FLOAT";}float res=strtof((yyvsp[(1) - (3)].element).val,NULL)-strtof((yyvsp[(3) - (3)].element).val,NULL); char v[10]=""; sprintf(v, "%f", res); (yyval.element).val=v;  char c[10]=""; sprintf(c, "T%d", ntemp);(yyval.element).ch=c; generer("-",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);ntemp++;;}
+    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){
+                    (yyval.element).type="INTEGER";}
+                    else{(yyval.element).type="FLOAT";}
+                    float res=strtof((yyvsp[(1) - (3)].element).val,NULL)-strtof((yyvsp[(3) - (3)].element).val,NULL); 
+                    char v[10]=""; 
+                    sprintf(v, "%f", res);
+                    (yyval.element).val=v; 
+                    char c[10]=""; 
+                    sprintf(c, "T%d", ntemp);
+                    (yyval.element).ch=c; 
+                    GenQuad("-",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);
+                    ntemp++;;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 172 "synt.y"
-    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){(yyval.element).type="INTEGER";}else{(yyval.element).type="FLOAT";} if(strtof((yyvsp[(3) - (3)].element).val,NULL)==0){yyerror("Erreur semantique: Division par 0!!!!");}float res=strtof((yyvsp[(1) - (3)].element).val,NULL)/strtof((yyvsp[(3) - (3)].element).val,NULL); char v[10]=""; sprintf(v, "%f", res); (yyval.element).val=v;  char c[10]=""; sprintf(c, "T%d", ntemp); (yyval.element).ch=c; generer("/",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);ntemp++;;}
+#line 183 "synt.y"
+    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){
+                    (yyval.element).type="INTEGER";}
+                    else{(yyval.element).type="FLOAT";} 
+                    if(strtof((yyvsp[(3) - (3)].element).val,NULL)==0){
+                        yyerror("Erreur semantique: Division par 0!!!!");}
+                        float res=strtof((yyvsp[(1) - (3)].element).val,NULL)/strtof((yyvsp[(3) - (3)].element).val,NULL); 
+                        char v[10]=""; 
+                        sprintf(v, "%f", res); 
+                        (yyval.element).val=v;  
+                        char c[10]=""; 
+                        sprintf(c, "T%d", ntemp); 
+                        (yyval.element).ch=c; 
+                        GenQuad("/",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);ntemp++;;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 173 "synt.y"
-    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){(yyval.element).type="INTEGER";}else{(yyval.element).type="FLOAT";}float res=strtof((yyvsp[(1) - (3)].element).val,NULL)*strtof((yyvsp[(3) - (3)].element).val,NULL); char v[10]=""; sprintf(v, "%f", res); (yyval.element).val=v; char c[10]=""; sprintf(c, "T%d", ntemp); (yyval.element).ch=c; generer("*",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);ntemp++;;}
+#line 196 "synt.y"
+    {if(strcmp((yyvsp[(1) - (3)].element).type,"INTEGER")==0 && strcmp((yyvsp[(3) - (3)].element).type,"INTEGER")==0){
+                    (yyval.element).type="INTEGER";}
+                    else{(yyval.element).type="FLOAT";}
+                    float res=strtof((yyvsp[(1) - (3)].element).val,NULL)*strtof((yyvsp[(3) - (3)].element).val,NULL); 
+                    char v[10]=""; 
+                    sprintf(v, "%f", res); 
+                    (yyval.element).val=v; 
+                    char c[10]=""; 
+                    sprintf(c, "T%d", ntemp); 
+                    (yyval.element).ch=c; 
+                    GenQuad("*",(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,c);ntemp++;;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 174 "synt.y"
-    {if(declared((yyvsp[(1) - (1)].chaine))==0){yyerror("Erreur semantique: variable non declaree");} else{used((yyvsp[(1) - (1)].chaine));(yyval.element).type=gettype2((yyvsp[(1) - (1)].chaine)); (yyval.element).val=gettaillechar((yyvsp[(1) - (1)].chaine)); (yyval.element).ch=(yyvsp[(1) - (1)].chaine);} ;}
+#line 207 "synt.y"
+    {if(declared((yyvsp[(1) - (1)].chaine))==0){
+            yyerror("Erreur semantique: variable non declaree");} 
+            else{used((yyvsp[(1) - (1)].chaine));
+            (yyval.element).type=gettype2((yyvsp[(1) - (1)].chaine)); 
+            (yyval.element).val=gettaillechar((yyvsp[(1) - (1)].chaine)); 
+            (yyval.element).ch=(yyvsp[(1) - (1)].chaine);} ;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 175 "synt.y"
-    {char* tab=strcat((yyvsp[(1) - (3)].chaine),"."); strcat(tab,(yyvsp[(3) - (3)].chaine)); if(declared(tab)==0){yyerror("Erreur semantique: variable non declaree");}else{used(tab);(yyval.element).type=gettype2(tab); (yyval.element).val=gettaillechar(tab); (yyval.element).ch=tab;};}
+#line 213 "synt.y"
+    {char* tab=strcat((yyvsp[(1) - (3)].chaine),"."); 
+                    strcat(tab,(yyvsp[(3) - (3)].chaine)); 
+                    if(declared(tab)==0){
+                        yyerror("Erreur semantique: variable non declaree");}
+                        else{used(tab);
+                        (yyval.element).type=gettype2(tab);
+                        (yyval.element).val=gettaillechar(tab); 
+                        (yyval.element).ch=tab;};}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 176 "synt.y"
-    {char* tab=strcat((yyvsp[(1) - (4)].chaine),"["); strcat(tab,ent); strcat(tab,"]"); (yyval.element).type=gettype2(tab); (yyval.element).val=gettaillechar(tab); (yyval.element).ch=tab;;}
+#line 221 "synt.y"
+    {char* tab=strcat((yyvsp[(1) - (4)].chaine),"["); 
+                        strcat(tab,ent); 
+                        strcat(tab,"]"); 
+                        (yyval.element).type=gettype2(tab); 
+                        (yyval.element).val=gettaillechar(tab); 
+                        (yyval.element).ch=tab;;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 177 "synt.y"
+#line 227 "synt.y"
     {(yyval.element).type="INTEGER"; (yyval.element).val=(yyvsp[(1) - (1)].chaine); (yyval.element).ch=(yyvsp[(1) - (1)].chaine);}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 178 "synt.y"
+#line 228 "synt.y"
     {(yyval.element).type="FLOAT"; (yyval.element).val=(yyvsp[(1) - (1)].chaine); (yyval.element).ch=(yyvsp[(1) - (1)].chaine);}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 179 "synt.y"
+#line 229 "synt.y"
     {(yyval.element).type="INTEGER"; (yyval.element).val=strtok((yyvsp[(1) - (1)].chaine),"()"); (yyval.element).ch=strtok((yyvsp[(1) - (1)].chaine),"()");}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 180 "synt.y"
+#line 230 "synt.y"
     {(yyval.element).type="FLOAT"; (yyval.element).val=strtok((yyvsp[(1) - (1)].chaine),"()"); (yyval.element).ch=strtok((yyvsp[(1) - (1)].chaine),"()");}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 181 "synt.y"
+#line 231 "synt.y"
     {(yyval.element).type=(yyvsp[(2) - (3)].element).type; (yyval.element).val=(yyvsp[(2) - (3)].element).val; (yyval.element).ch=(yyvsp[(2) - (3)].element).ch;;}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 188 "synt.y"
+#line 238 "synt.y"
     {if(win==1){liste[qcT].op1=convert(qc+1);
                                         liste[qcT-2].op1=convert(qc+1); 
                                         win=0;}
                                 else{liste[qcT].op1=convert(qc+1);} 
                                 qcT=qc;
-                                generer("BR","","",""); ;}
+                                GenQuad("BR","","",""); ;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 194 "synt.y"
+#line 244 "synt.y"
     { liste[qcT].op1=convert(qc); ;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 198 "synt.y"
+#line 248 "synt.y"
     {win=1; (yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 199 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quadL(3,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);ntemp++;;}
+#line 249 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);LogicQuad(2,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);ntemp++;;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 200 "synt.y"
-    {sprintf((yyval.element).ch,"T%d",ntemp);quadL(1,(yyvsp[(2) - (2)].element).ch,"",(yyval.element).ch);ntemp++;;}
+#line 250 "synt.y"
+    {sprintf((yyval.element).ch,"T%d",ntemp);LogicQuad(1,(yyvsp[(2) - (2)].element).ch,"",(yyval.element).ch);ntemp++;;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 204 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(1,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
+#line 254 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(1,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 205 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(2,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
+#line 255 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(2,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 206 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(3,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
+#line 256 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(3,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 207 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(4,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
+#line 257 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(4,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 208 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(5,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1; ntemp++;;}
+#line 258 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(5,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1; ntemp++;;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 209 "synt.y"
-    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);quad(6,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
+#line 259 "synt.y"
+    {(yyvsp[(1) - (3)].element).ch=strdup((yyval.element).ch);sprintf((yyval.element).ch,"T%d",ntemp);ComparQuad(6,(yyvsp[(1) - (3)].element).ch,(yyvsp[(3) - (3)].element).ch,(yyval.element).ch);qcT=qc-1;ntemp++;;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 213 "synt.y"
+#line 263 "synt.y"
     {qct2=qc;;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 213 "synt.y"
-    {liste[qcT].op1=convert(qc+1); generer("BR",convert(qct2),"","");;}
+#line 263 "synt.y"
+    {liste[qcT].op1=convert(qc+1); GenQuad("BR",convert(qct2),"","");;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 216 "synt.y"
+#line 266 "synt.y"
     {qcT=qc;;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 216 "synt.y"
-    {qct2=qc;generer("BNZ","",liste[qc-1].res,"");;}
+#line 266 "synt.y"
+    {qct2=qc;GenQuad("BNZ","",liste[qc-1].res,"");;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 216 "synt.y"
-    {used((yyvsp[(3) - (14)].chaine));generer("+",(yyvsp[(3) - (14)].chaine),(yyvsp[(7) - (14)].chaine),(yyvsp[(3) - (14)].chaine));generer("BR",convert(qcT),"","");liste[qct2].op1=convert(qc);;}
+#line 266 "synt.y"
+    {used((yyvsp[(3) - (14)].chaine));GenQuad("+",(yyvsp[(3) - (14)].chaine),(yyvsp[(7) - (14)].chaine),(yyvsp[(3) - (14)].chaine));GenQuad("BR",convert(qcT),"","");liste[qct2].op1=convert(qc);;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1928 "synt.tab.c"
+#line 1978 "synt.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2136,7 +2186,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 220 "synt.y"
+#line 270 "synt.y"
 
 int yyerror(char* msg){
 
@@ -2152,8 +2202,9 @@ yyparse();
 //delete_unused();
 afficher();
 affiche();
-//delete_quad();
-afficher_qdr();
+checkX2();
+delete_quad();
+afficher_Quad();
 assembler();
 return 0;
 }
