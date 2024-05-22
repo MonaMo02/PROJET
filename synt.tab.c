@@ -1552,21 +1552,21 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 66 "synt.y"
     {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {char *result = substring((yyvsp[(4) - (4)].chaine));
- insere((yyvsp[(2) - (4)].chaine),"CONST_INTEGER",result);};}
+ InsertionTSH((yyvsp[(2) - (4)].chaine),"CONST_INTEGER",result);};}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
 #line 68 "synt.y"
-    {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {insere((yyvsp[(2) - (4)].chaine),"CONST_INTEGER",(yyvsp[(4) - (4)].chaine));};}
+    {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {InsertionTSH((yyvsp[(2) - (4)].chaine),"CONST_INTEGER",(yyvsp[(4) - (4)].chaine));};}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
 #line 69 "synt.y"
-    {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {insere((yyvsp[(2) - (4)].chaine),"CONST_FLOAT",(yyvsp[(4) - (4)].chaine));};}
+    {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {InsertionTSH((yyvsp[(2) - (4)].chaine),"CONST_FLOAT",(yyvsp[(4) - (4)].chaine));};}
     break;
 
   case 12:
@@ -1574,7 +1574,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 70 "synt.y"
     {if(declared((yyvsp[(2) - (4)].chaine))==1){yyerror("Double declaration");}else {char *result = substring((yyvsp[(4) - (4)].chaine));
-    insere((yyvsp[(2) - (4)].chaine),"CONST_FLOAT",result);};}
+    InsertionTSH((yyvsp[(2) - (4)].chaine),"CONST_FLOAT",result);};}
     break;
 
   case 13:
@@ -1582,13 +1582,13 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 74 "synt.y"
     {if(declared((yyvsp[(1) - (6)].chaine))==1){yyerror("Double declaration");}
-        else {char var[]="Tableau_"; insere((yyvsp[(1) - (6)].chaine), strcat(var,sauvType), (yyvsp[(3) - (6)].chaine)); int taille = atoi((yyvsp[(3) - (6)].chaine));
+        else {char var[]="Tableau_"; InsertionTSH((yyvsp[(1) - (6)].chaine), strcat(var,sauvType), (yyvsp[(3) - (6)].chaine)); int taille = atoi((yyvsp[(3) - (6)].chaine));
 		int j;
         for(j=0; j<taille; j++){
         	char c[50];
         	sprintf(c, "%s[%d]", (yyvsp[(1) - (6)].chaine), j); 
            // printf("%s\n", c);
-			insere(c,sauvType,"0");
+			InsertionTSH(c,sauvType,"0");
 		}};}
     break;
 
@@ -1596,13 +1596,13 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 83 "synt.y"
-    {if(declared((yyvsp[(1) - (4)].chaine))==1){yyerror("Double declaration");}else {char var[]="Tableau_"; insere((yyvsp[(1) - (4)].chaine), strcat(var,sauvType), (yyvsp[(3) - (4)].chaine)); int taille = atoi((yyvsp[(3) - (4)].chaine));
+    {if(declared((yyvsp[(1) - (4)].chaine))==1){yyerror("Double declaration");}else {char var[]="Tableau_"; InsertionTSH((yyvsp[(1) - (4)].chaine), strcat(var,sauvType), (yyvsp[(3) - (4)].chaine)); int taille = atoi((yyvsp[(3) - (4)].chaine));
 		int j;
         for(j=0; j<taille; j++){
         	char c[50];
         	sprintf(c, "%s[%d]", (yyvsp[(1) - (4)].chaine), j); 
           //  printf("%s\n", c);
-			insere(c,sauvType,"0");
+			InsertionTSH(c,sauvType,"0");
 		}};}
     break;
 
@@ -1610,14 +1610,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 93 "synt.y"
-    {if(declared((yyvsp[(1) - (3)].chaine))==1){yyerror("Double declaration");}else{insere((yyvsp[(1) - (3)].chaine), sauvType,"0");};}
+    {if(declared((yyvsp[(1) - (3)].chaine))==1){yyerror("Double declaration");}else{InsertionTSH((yyvsp[(1) - (3)].chaine), sauvType,"0");};}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
 #line 94 "synt.y"
-    {if(declared((yyvsp[(1) - (1)].chaine))==1){yyerror("Double declaration");}else{insere((yyvsp[(1) - (1)].chaine), sauvType,"0");};}
+    {if(declared((yyvsp[(1) - (1)].chaine))==1){yyerror("Double declaration");}else{InsertionTSH((yyvsp[(1) - (1)].chaine), sauvType,"0");};}
     break;
 
   case 17:
@@ -2199,11 +2199,13 @@ int main()
 init();
 yyin=fopen("exemple.txt","r");
 yyparse();
-//delete_unused();
+delete_unused();
 afficher();
 affiche();
-checkX2();
-delete_quad();
+afficher_Quad();
+TransformMult2();
+SupCodeInutile();
+printf("\n**********LES Quadruplets APRES OPTIMISATION*************\n");
 afficher_Quad();
 assembler();
 return 0;

@@ -64,34 +64,34 @@ DEC: DEC TYPE LISTEIDF pvg
  ;
 
 LISTECONST: mc_const idf affect const_integer {if(declared($2)==1){yyerror("Double declaration");}else {char *result = substring($4);
- insere($2,"CONST_INTEGER",result);}}
-    |mc_const idf affect integer_pos {if(declared($2)==1){yyerror("Double declaration");}else {insere($2,"CONST_INTEGER",$4);}}
-    |mc_const idf affect const_float {if(declared($2)==1){yyerror("Double declaration");}else {insere($2,"CONST_FLOAT",$4);}}
+ InsertionTSH($2,"CONST_INTEGER",result);}}
+    |mc_const idf affect integer_pos {if(declared($2)==1){yyerror("Double declaration");}else {InsertionTSH($2,"CONST_INTEGER",$4);}}
+    |mc_const idf affect const_float {if(declared($2)==1){yyerror("Double declaration");}else {InsertionTSH($2,"CONST_FLOAT",$4);}}
     |mc_const idf affect float_pos {if(declared($2)==1){yyerror("Double declaration");}else {char *result = substring($4);
-    insere($2,"CONST_FLOAT",result);}}
+    InsertionTSH($2,"CONST_FLOAT",result);}}
  ;
 
 LISTETAB: idf CroOuv integer_pos CroFer vrg LISTETAB {if(declared($1)==1){yyerror("Double declaration");}
-        else {char var[]="Tableau_"; insere($1, strcat(var,sauvType), $3); int taille = atoi($3);
+        else {char var[]="Tableau_"; InsertionTSH($1, strcat(var,sauvType), $3); int taille = atoi($3);
 		int j;
         for(j=0; j<taille; j++){
         	char c[50];
         	sprintf(c, "%s[%d]", $1, j); 
            // printf("%s\n", c);
-			insere(c,sauvType,"0");
+			InsertionTSH(c,sauvType,"0");
 		}}}
-    |idf CroOuv integer_pos CroFer {if(declared($1)==1){yyerror("Double declaration");}else {char var[]="Tableau_"; insere($1, strcat(var,sauvType), $3); int taille = atoi($3);
+    |idf CroOuv integer_pos CroFer {if(declared($1)==1){yyerror("Double declaration");}else {char var[]="Tableau_"; InsertionTSH($1, strcat(var,sauvType), $3); int taille = atoi($3);
 		int j;
         for(j=0; j<taille; j++){
         	char c[50];
         	sprintf(c, "%s[%d]", $1, j); 
           //  printf("%s\n", c);
-			insere(c,sauvType,"0");
+			InsertionTSH(c,sauvType,"0");
 		}}}
  ;
 
-LISTEIDF: idf vrg LISTEIDF {if(declared($1)==1){yyerror("Double declaration");}else{insere($1, sauvType,"0");}}
-    |idf {if(declared($1)==1){yyerror("Double declaration");}else{insere($1, sauvType,"0");}}
+LISTEIDF: idf vrg LISTEIDF {if(declared($1)==1){yyerror("Double declaration");}else{InsertionTSH($1, sauvType,"0");}}
+    |idf {if(declared($1)==1){yyerror("Double declaration");}else{InsertionTSH($1, sauvType,"0");}}
  ;
 
 TYPE: mc_integer {strcpy(sauvType, "INTEGER");}
@@ -279,11 +279,13 @@ int main()
 init();
 yyin=fopen("exemple.txt","r");
 yyparse();
-//delete_unused();
+delete_unused();
 afficher();
 affiche();
-checkX2();
-delete_quad();
+afficher_Quad();
+TransformMult2();
+SupCodeInutile();
+printf("\n**********LES Quadruplets APRES OPTIMISATION*************\n");
 afficher_Quad();
 assembler();
 return 0;

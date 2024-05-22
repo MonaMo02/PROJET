@@ -6,12 +6,12 @@ INTEGER Bx,i,t1,t2,t3;
 INTEGER j;
 CONST X=(-3.5);
 FLOAT Tab[5];
-
 }
 
 DECLARATION{
     INTEGER a, f;
     FLOAT Array[10];
+    FLOAT p,q,w;
 }
 
 %% ceci est un commentaire
@@ -19,6 +19,8 @@ DECLARATION{
 
 ab=X+(5/2);
 Bx=2*15+(-3);
+
+
 
 
 IF(ab==2 || Bx<20){

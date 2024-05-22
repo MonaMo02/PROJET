@@ -133,9 +133,9 @@ void delete_quad()
 				while ((p > 0) && (t == 0))
 				{
 					if ((strcmp(liste[p - 1].opr, "+") == 0) ||
-					 (strcmp(liste[p - 1].opr, "-") == 0) || 
-					 (strcmp(liste[p - 1].opr, "*") == 0) || 
-					 (strcmp(liste[p - 1].opr, "/") == 0))
+						(strcmp(liste[p - 1].opr, "-") == 0) || 
+						(strcmp(liste[p - 1].opr, "*") == 0) || 
+						(strcmp(liste[p - 1].opr, "/") == 0))
 					{
 						p--;
 					}
@@ -154,62 +154,72 @@ void delete_quad()
 	}
 }
 
-/********************************************/ 
 
-void PropagationDeCopie() {
+void ajour_liste(int num_quad, int colon_quad, char val[])
+{
+    if (colon_quad == 0)
+        strcpy(liste[num_quad].opr, val);
+    else if (colon_quad == 1)
+        strcpy(liste[num_quad].op1, val);
+    else if (colon_quad == 2)
+        strcpy(liste[num_quad].op2, val);
+    else if (colon_quad == 3)
+        strcpy(liste[num_quad].res, val);
+}
+void suppQuad(int begin){
+    int i=begin;
+    char buffer[20];
+    while(i<= qc){
+        liste[i]=liste[i+1];
+        i++;
+    }
+    qc--;
+    for ( i = 0; i < qc; i++)
+    {
+        // if its a jump and after our delete reduce the jump pos 
+        if((!strcmp(liste[i].opr,"BNZ") || !strcmp(liste[i].opr,"BZ") ||!strcmp(liste[i].opr,"BR"))&&begin<atoi(liste[i].op1)){
+            ajour_liste(i,1,itoa(atoi(liste[i].op1)-1,buffer,10));
+        }
+    }
+    
+}
+/*******************************************************************************************************/
+
+
+void SupCodeInutile() {
     int i, j, k;
-	int nbQc=0; // calculer le nb des quads jusqu a trouver le meme res (changer la valeur du var)
-	int trouve;
-	int nbOcc=0; // res doit etre presant dasn au mois deux quad comme operand
-    for (i = 0; i < qc-1; i++) 
-	{    
-		if (strcmp(liste[i].opr, "=") == 0 )
-		{      
-				nbQc=i+1; trouve =0;
-				for (j = i+1; j < qc; j++)
-				{
-					if (strcmp(liste[i].res, liste[j].res) != 0 )
-					{
-					    nbQc++; trouve=1; //trouve est utilise pour la condition if 
-						if (strcmp(liste[i].op1,liste[j].op2) == 0 || strcmp(liste[i].op1,liste[j].op1) == 0)
-						{
-							nbOcc++;
-						}
-					}
-					else
-					{
-						break;
-					}
-				}
-				if(trouve == 1 && nbOcc>1){
-					for (j = i + 1; j < nbQc; j++) 
-					{    
-						if ( (strcmp(liste[i].op1,liste[j].op2) == 0 || strcmp(liste[i].op1,liste[j].op1) == 0) && strcmp(liste[i].op2,"") == 0 )
-						{     changement = 1;
-					        if (strcmp(liste[i].op1, liste[j].op1) == 0) 
-							 {
-								 strcpy(liste[j].op1, liste[i].res);
-							 } 
-							 else 
-							 {
-								  strcpy(liste[j].op2, liste[i].res);
-							 }
-						}
-					}
-				}
-		}
-       
+	char t = 'T';
+	int test  = 0;
+    
+	//if res is not used in all the rest of quads as operand then delete it
+    for (i = 0; i < qc; i++) {
+        if (strcmp(liste[i].opr, "=") == 0 )
+    	{   
+            for (j = i + 1; j < qc; j++) 
+			{  
+               if (strcmp(liste[i].res, liste[j].op1) == 0 || 
+			   	strcmp(liste[i].res, liste[j].op2) == 0 ||
+			   	((strcmp(liste[j].opr, "BR") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BZ") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BNZ") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BG") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BGE") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BL") == 0) && (atoi(liste[j].op1) < i)) || 
+				((strcmp(liste[j].opr, "BLE") == 0) && (atoi(liste[j].op1) < i)) ) 
+			   {  
+                   test = 1;
+				   break;
+               }
+            }
+			if(test == 0) {suppQuad(i); i--; changement = 1;}
+        } 
+		test =0;
     }
 }
 /*********************************************************************************************************/
 
 
-
-/********************/
-
-
-
-void checkX2()
+void TransformMult2()
 {
     int i=0;
     for (i=0;i<qc;i++)
